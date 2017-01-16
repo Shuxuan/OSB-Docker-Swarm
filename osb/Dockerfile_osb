@@ -29,11 +29,13 @@ MAINTAINER Shuxuan Nie <judy.nie@oracle.com>
 #
 #ENV http_proxy http://www-proxy.us.oracle.com:80
 ENV OSB_PKG fmw_12.2.1.2.0_osb.jar
+ENV SOA_PKG fmw_12.2.1.2.0_soa.jar
 
 #
 # Copy packages
 #-----------------------
 ADD $OSB_PKG /u01/
+ADD $SOA_PKG /u01/
 COPY osbinstall.file /u01/
 COPY oraInst.loc /u01/
 
@@ -68,11 +70,17 @@ RUN yum install  -y \
         libstdc++
 
 # Installation of osb
+#RUN cd /u01 && \
+#    su oracle -c "$JAVA_HOME/bin/java -jar /u01/$OSB_PKG -ignoreSysPrereqs -novalidation -silent -responseFile /u01/osbinstall.file -invPtrLoc /u01/oraInst.loc -jreLoc $JAVA_HOME" && \
+#    su oracle -c "$JAVA_HOME/bin/java -jar /u01/$SOA_PKG -ignoreSysPrereqs -novalidation -silent -responseFile /u01/osbinstall.file -invPtrLoc /u01/oraInst.loc -jreLoc $JAVA_HOME" && \
+
 RUN cd /u01 && \
-    su oracle -c "$JAVA_HOME/bin/java -jar /u01/$OSB_PKG -ignoreSysPrereqs -novalidation -silent -responseFile /u01/osbinstall.file -invPtrLoc /u01/oraInst.loc -jreLoc $JAVA_HOME" && \
-    rm -fr /u01/$OSB_PKG /u01/osbinstall.file /u01/oraInstl.loc
-#
-#USER oracle
+    su oracle -c "$JAVA_HOME/bin/java -jar /u01/$OSB_PKG -novalidation -silent -responseFile /u01/osbinstall.file -invPtrLoc /u01/oraInst.loc -jreLoc $JAVA_HOME" && \
+    su oracle -c "$JAVA_HOME/bin/java -jar /u01/$SOA_PKG -novalidation -silent -responseFile /u01/osbinstall.file -invPtrLoc /u01/oraInst.loc -jreLoc $JAVA_HOME" && \
+    rm -fr /u01/$OSB_PKG /u01/$SOA_PKG /u01/osbinstall.file /u01/oraInstl.loc
+
+
+USER oracle
 WORKDIR /u01/oracle/
 #
 #
