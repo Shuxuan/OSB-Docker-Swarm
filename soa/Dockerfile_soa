@@ -15,7 +15,7 @@ MAINTAINER Shuxuan Nie <judy.nie@oracle.com>
 # -----------------------------------------
 #
 #
-#ENV http_proxy http://www-proxy.us.oracle.com:80
+
 ENV SOA_PKG fmw_12.2.1.2.0_soa.jar
 
 #

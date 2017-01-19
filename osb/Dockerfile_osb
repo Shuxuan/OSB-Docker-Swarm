@@ -12,7 +12,7 @@
 # Put all downloaded files in the same directory as this Dockerfile
 # Run:
 #
-# docker build --force-rm=true --no-cache=true --rm=true -t oracle/osb1221:1 .
+# docker build --force-rm=true --no-cache=true --rm=true -t oracle/osb:1221 .
 #
 # Pull base image
 # ---------------
@@ -27,7 +27,7 @@ MAINTAINER Shuxuan Nie <judy.nie@oracle.com>
 # -----------------------------------------
 #
 #
-#ENV http_proxy http://www-proxy.us.oracle.com:80
+
 ENV OSB_PKG fmw_12.2.1.2.0_osb.jar
 
 #
