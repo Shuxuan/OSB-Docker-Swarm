@@ -42,6 +42,7 @@ COPY container-scripts/* /u01/oracle/
 # Configuration of WLS Domain
 
 RUN echo "Admin Password" $ADMIN_PASSWORD && \
+    chmod a+x /u01/oracle/rcuOSB.sh && \
     /u01/oracle/rcuOSB.sh && \
     /u01/oracle/wlst /u01/oracle/create-osb-domain.py && \
     mkdir -p /u01/oracle/domains/$DOMAIN_NAME/servers/AdminServer/security && \
