@@ -5,7 +5,7 @@
 #
 echo Run rcu for SOA Infrastucture
 export ORACLE_HOME=/u01/oracle/weblogic
-export RCU_OSB_RSP=rcuOSB.rsp
+export RCU_OSB_RSP=rcuResponseFile.properties
 export RCU_OSB_PWD=rcuOSBPasswords.txt
 export RCU_INSTALL_HOME=/u01/oracle
 
