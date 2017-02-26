@@ -42,7 +42,8 @@ COPY container-scripts/* /u01/oracle/
 # Configuration of WLS Domain
 
 RUN echo "Admin Password" $ADMIN_PASSWORD && \
-    /u01/oracle/wlst /u01/oracle/create-wls-domain.py && \
+    /u01/oracle/rcu.sh && \
+    /u01/oracle/wlst /u01/oracle/create-osb-domain.py && \
     mkdir -p /u01/oracle/domains/$DOMAIN_NAME/servers/AdminServer/security && \
     echo "username=weblogic" > /u01/oracle/domains/$DOMAIN_NAME/servers/AdminServer/security/boot.properties && \ 
     echo "password=$ADMIN_PASSWORD" >> /u01/oracle/domains/$DOMAIN_NAME/servers/AdminServer/security/boot.properties && \
