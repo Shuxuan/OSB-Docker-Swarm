@@ -113,9 +113,10 @@ def setNodeManagerCredentials(domainHome, domainName, username, password):
 
 
 def createServer(serverName, listenPort):
+        print SERVERS
         if serverName not in SERVERS:
-                cd('/')
-                create(serverName, 'Server')
+            cd('/')
+            create(serverName, 'Server')
         cd('/Server/' + serverName)
         server = cmo
         server.setListenPort(listenPort)
@@ -242,6 +243,9 @@ set('ListenPort'   ,7001)
 setOption( "AppDir", APPLICATION_DIR )
 set('Machine', MACHINENAME)
 SERVERS = ls('/Server', 'true', 'c')
+print '======================== SERVERS============================'
+print SERVERS
+print '======================== SERVERS============================'
 create(ADMIN_SERVER_NAME,'SSL')
 cd('SSL/'+ADMIN_SERVER_NAME)
 set('Enabled', 'false')
