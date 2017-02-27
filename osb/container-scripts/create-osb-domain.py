@@ -3,10 +3,10 @@ import java.lang.String as jstring
 import java.lang.System as jsystem
 import socket
 
-DOMAIN = 'osb_domain'
+DOMAIN_NAME = 'osb_domain'
 ORACLE_HOME ='/u01/oracle/weblogic'
 WL_HOME = ORACLE_HOME + '/wlserver'
-DOMAIN_DIR = '/u01/oracle/domains/osb_domain'
+DOMAIN_DIR = '/u01/oracle/domains/' + DOMAIN_NAME
 APPLICATION_DIR = DOMAIN_DIR + '/applications'
 HOSTNAME = socket.gethostname()
 MANAGED_SERVER_NAME = 'osb_server1'
@@ -22,7 +22,7 @@ SOA_REPOS_DBPASSWORD     = 'Welcome1'
 ADMIN_SERVER_NAME   = 'AdminServer'
 ADMIN_USER     = 'weblogic'
 ADMIN_PASSWORD = 'Welcome1'
-
+ADMIN_SERVER_PORT = '7001'
 JAVA_HOME      = '/usr/java/latest'
 LOG_FOLDER     = '/var/log/weblogic/'
 ADM_JAVA_ARGUMENTS = '-XX:PermSize=256m -XX:MaxPermSize=512m -Xms1024m -Xmx1532m -Dweblogic.Stdout='+LOG_FOLDER+'AdminServer.out -Dweblogic.Stderr='+LOG_FOLDER+'AdminServer_err.out'
@@ -235,7 +235,7 @@ setOption('JavaHome', JAVA_HOME)
 #!----------------------------------------------
 cd('/')
 create(MACHINENAME, 'UnixMachine')
-cd('/Server/' + MACHINENAME)
+cd('/Server/AdminServer')
 set('Name',ADMIN_SERVER_NAME )
 set('ListenAddress',HOSTNAME)
 set('ListenPort'   ,7001)
