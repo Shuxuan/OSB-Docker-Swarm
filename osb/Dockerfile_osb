@@ -83,4 +83,4 @@ WORKDIR /u01/oracle/
 ENV PATH $PATH:/u01/oracle/weblogic/oracle_common/common/bin
 #
 # Define default command to start bash.
-CMD ["/u01/oracle/createAndStartOSBDomain.sh"]
+CMD ["/u01/oracle/container-scripts/createAndStartOSBDomain.sh"]

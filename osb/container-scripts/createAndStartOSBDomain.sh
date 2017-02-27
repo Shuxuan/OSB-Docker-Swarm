@@ -27,6 +27,9 @@ trap _term SIGTERM
 # Set SIGKILL handler
 trap _kill SIGKILL
 
+#Absolute path of current file
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # If AdminServer.log does not exists, container is starting for 1st time
 # So it should start NM and also associate with AdminServer
 # Otherwise, only start NM (container restarted)
@@ -50,7 +53,7 @@ if [ $ADD_DOMAIN -eq 0 ]; then
 	echo "      ----> 'weblogic' admin password: $ADMIN_PASSWORD"
 	echo ""
 	
-	sed -i -e "s|ADMIN_PASSWORD|$ADMIN_PASSWORD|g" /u01/oracle/create-osb-domain.py
+	sed -i -e "s|ADMIN_PASSWORD|$ADMIN_PASSWORD|g" $DIR/create-osb-domain.py
 	
 	# Create an OSB domain
 	wlst.sh -skipWLSModuleScanning /u01/oracle/create-osb-domain.py
