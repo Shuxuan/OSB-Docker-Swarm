@@ -185,7 +185,7 @@ def updateDataSource(DRIVERNAME, URL, SCHEMA_POSTFIX):
     cmo.setPasswordEncrypted(SOA_REPOS_DBPASSWORD)
     cd('Properties/NO_NAME')
     cd('Property/user')
-    cmo.setValue(DB_SCHEMA_PREFIX + '_' + SCHEMA_POSTFIX)
+    cmo.setValue(SOA_REPOS_DBUSER_PREFIX + '_' + SCHEMA_POSTFIX)
 
 
 def dsExists(dsName):
