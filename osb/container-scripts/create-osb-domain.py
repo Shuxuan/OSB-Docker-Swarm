@@ -314,17 +314,6 @@ cluster.setWeblogicPluginEnabled(true)
 assign('Server',MANAGED_SERVER_NAME,'Cluster',CLUSTER_NAME)
 
 
-# delete OSB server
-osbServerName = 'osb_server1'
-cd('/Servers')
-servers = ls()
-if (servers.find(osbServerName) != -1):
-   print 'Default server ' +  osbServerName + ' exists, deleting it...'
-   cd ('/')
-   delete(osbServerName, 'Server')
-else:
-   print 'no default osb server found !'
-   pass
 
 
 
@@ -348,13 +337,14 @@ set('PasswordEncrypted',SOA_REPOS_DBPASSWORD)
 cd('Properties/NO_NAME_0/Property/user')
 set('Value',SOA_REPOS_DBUSER_PREFIX+'_STB')
 
-cd('/JdbcSystemResource/LocalSvcTblDataSource/JdbcResource/LocalSvcTblDataSource')
-updateDataSource(DRIVERNAME, SOA_REPOS_DBURL, 'STB')
+#cd('/JdbcSystemResource/LocalSvcTblDataSource/JdbcResource/LocalSvcTblDataSource')
+#updateDataSource(DRIVERNAME, SOA_REPOS_DBURL, 'STB')
 
 print 'Call getDatabaseDefaults which reads the service table'
-getDatabaseDefaults()    
+getDatabaseDefaults()  
 
-changeDatasourceToXA('EDNDataSource')
+
+#changeDatasourceToXA('EDNDataSource')
 changeDatasourceToXA('wlsbjmsrpDataSource')
 changeDatasourceToXA('OraSDPMDataSource')
 changeDatasourceToXA('SOADataSource')
@@ -391,12 +381,28 @@ updateDataSource(DRIVERNAME, SOA_REPOS_DBURL, 'IAU_APPEND')
 setOption('BackupFiles','false')
 
 #setJDBCStorePrefixName()
-setTLOGDataSource()
-setDeterminer()
+#setTLOGDataSource()
+#setDeterminer()
 
-configMigratableTargets()
+#configMigratableTargets()
 
-printJndiNames('mds-owsm')
+#printJndiNames('mds-owsm')
+
+
+# delete OSB server
+#osbServerName = 'osb_server1'
+#cd('/Servers')
+#servers = ls()
+#if (servers.find(osbServerName) != -1):
+#   print 'Default server ' +  osbServerName + ' exists, deleting it...'
+#   cd ('/')
+#   delete(osbServerName, 'Server')
+#else:
+#   print 'no default osb server found !'
+#   pass
+
+
+
 updateDomain()
 closeDomain()
 exit()
