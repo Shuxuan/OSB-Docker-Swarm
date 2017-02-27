@@ -113,9 +113,10 @@ def setNodeManagerCredentials(domainHome, domainName, username, password):
 
 
 def createServer(serverName, listenPort):
+        print SERVERS
         if serverName not in SERVERS:
-                cd('/')
-                create(serverName, 'Server')
+            cd('/')
+            create(serverName, 'Server')
         cd('/Server/' + serverName)
         server = cmo
         server.setListenPort(listenPort)
@@ -181,10 +182,10 @@ def updateDataSource(DRIVERNAME, URL, SCHEMA_POSTFIX):
     cd('JdbcDriverParams/NO_NAME')
     cmo.setDriverName(DRIVERNAME)
     cmo.setUrl(URL)
-    cmo.setPasswordEncrypted(DB_SCHEMA_PASSWORD)
+    cmo.setPasswordEncrypted(SOA_REPOS_DBPASSWORD)
     cd('Properties/NO_NAME')
     cd('Property/user')
-    cmo.setValue(DB_SCHEMA_PREFIX + '_' + SCHEMA_POSTFIX)
+    cmo.setValue(SOA_REPOS_DBUSER_PREFIX + '_' + SCHEMA_POSTFIX)
 
 
 def dsExists(dsName):
@@ -242,6 +243,9 @@ set('ListenPort'   ,7001)
 setOption( "AppDir", APPLICATION_DIR )
 set('Machine', MACHINENAME)
 SERVERS = ls('/Server', 'true', 'c')
+print '======================== SERVERS============================'
+print SERVERS
+print '======================== SERVERS============================'
 create(ADMIN_SERVER_NAME,'SSL')
 cd('SSL/'+ADMIN_SERVER_NAME)
 set('Enabled', 'false')
@@ -255,7 +259,7 @@ createAdminStartupPropertiesFile(DOMAIN_DIR+'/servers/'+ADMIN_SERVER_NAME+'/data
 createBootPropertiesFile(DOMAIN_DIR+'/servers/'+ADMIN_SERVER_NAME+'/security','boot.properties',ADMIN_USER,ADMIN_PASSWORD)
 createBootPropertiesFile(DOMAIN_DIR+'/config/nodemanager','nm_password.properties',ADMIN_USER,ADMIN_PASSWORD)
 
-es = encrypt(ADMIN_PASSWORD,DOMAIN_PATH)
+es = encrypt(ADMIN_PASSWORD,DOMAIN_DIR)
 
 OSB_TEMPLATE_PATH=ORACLE_HOME+'/osb/common/templates/wls/oracle.osb_template.jar'
 readDomain(DOMAIN_DIR)
@@ -270,15 +274,17 @@ cd('NodeManager/'+MACHINENAME)
 set('ListenAddress',HOSTNAME)
 set('ListenPort', 5556)
 set('NodeManagerHome', DOMAIN_DIR+'/nodemanager')
-setNodeManagerCredentials(DOMAIN_DIR, DOMAIN_NAME, WL_USER, WL_PWD)
+setNodeManagerCredentials(DOMAIN_DIR, DOMAIN_NAME, ADMIN_USER, ADMIN_PASSWORD)
 
 cd('/')
 ADMIN_SERVER_NAME = cmo.getAdminServerName()
 DOMAIN_NAME = cmo.getName()
-SERVERS = ls('/Server', 'true', 'c')
 
 addTemplate(OSB_TEMPLATE_PATH)
-
+SERVERS = ls('/Server', 'true', 'c')
+print '======================== SERVERS============================'
+print SERVERS
+print '======================== SERVERS============================'
 createServer(MANAGED_SERVER_NAME, int(MANAGED_SERVER_PORT))
 cd('/Servers/'+MANAGED_SERVER_NAME)
 set('Machine', MACHINENAME)
@@ -308,17 +314,6 @@ cluster.setWeblogicPluginEnabled(true)
 assign('Server',MANAGED_SERVER_NAME,'Cluster',CLUSTER_NAME)
 
 
-# delete OSB server
-osbServerName = 'osb_server1'
-cd('/Servers')
-servers = ls()
-if (servers.find(osbServerName) != -1):
-   print 'Default server ' +  osbServerName + ' exists, deleting it...'
-   cd ('/')
-   delete(osbServerName, 'Server')
-else:
-   print 'no default osb server found !'
-   pass
 
 
 
@@ -342,13 +337,14 @@ set('PasswordEncrypted',SOA_REPOS_DBPASSWORD)
 cd('Properties/NO_NAME_0/Property/user')
 set('Value',SOA_REPOS_DBUSER_PREFIX+'_STB')
 
-cd('/JdbcSystemResource/LocalSvcTblDataSource/JdbcResource/LocalSvcTblDataSource')
-updateDataSource(DRIVERNAME, SOA_REPOS_DBURL, 'STB')
+#cd('/JdbcSystemResource/LocalSvcTblDataSource/JdbcResource/LocalSvcTblDataSource')
+#updateDataSource(DRIVERNAME, SOA_REPOS_DBURL, 'STB')
 
 print 'Call getDatabaseDefaults which reads the service table'
-getDatabaseDefaults()    
+getDatabaseDefaults()  
 
-changeDatasourceToXA('EDNDataSource')
+
+#changeDatasourceToXA('EDNDataSource')
 changeDatasourceToXA('wlsbjmsrpDataSource')
 changeDatasourceToXA('OraSDPMDataSource')
 changeDatasourceToXA('SOADataSource')
@@ -385,12 +381,28 @@ updateDataSource(DRIVERNAME, SOA_REPOS_DBURL, 'IAU_APPEND')
 setOption('BackupFiles','false')
 
 #setJDBCStorePrefixName()
-setTLOGDataSource()
-setDeterminer()
+#setTLOGDataSource()
+#setDeterminer()
 
-configMigratableTargets()
+#configMigratableTargets()
 
-printJndiNames('mds-owsm')
+#printJndiNames('mds-owsm')
+
+
+# delete OSB server
+#osbServerName = 'osb_server1'
+#cd('/Servers')
+#servers = ls()
+#if (servers.find(osbServerName) != -1):
+#   print 'Default server ' +  osbServerName + ' exists, deleting it...'
+#   cd ('/')
+#   delete(osbServerName, 'Server')
+#else:
+#   print 'no default osb server found !'
+#   pass
+
+
+
 updateDomain()
 closeDomain()
 exit()

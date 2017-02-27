@@ -45,7 +45,7 @@ if [ $ADD_DOMAIN -eq 0 ]; then
 	$DIR/rcuOSB.sh
 	
 	echo ""
-	echo "    Oracle WebLogic Server Auto Generated Empty OSB Domain:"
+	echo "    Oracle WebLogic Server Auto Generated OSB Domain:"
 	echo ""
 	echo "      ----> 'weblogic' admin password: $ADMIN_PASSWORD"
 	echo ""
@@ -54,9 +54,6 @@ if [ $ADD_DOMAIN -eq 0 ]; then
 	
 	# Create an OSB domain
 	wlst.sh -skipWLSModuleScanning /u01/oracle/create-osb-domain.py
-	mkdir -p ${DOMAIN_HOME}/servers/AdminServer/security/ 
-	echo "username=weblogic" > /u01/oracle/user_projects/domains/$DOMAIN_NAME/servers/AdminServer/security/boot.properties 
-	echo "password=$ADMIN_PASSWORD" >> /u01/oracle/user_projects/domains/$DOMAIN_NAME/servers/AdminServer/security/boot.properties 
 	${DOMAIN_HOME}/bin/setDomainEnv.sh 
 fi
 
