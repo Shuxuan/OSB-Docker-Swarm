@@ -255,7 +255,7 @@ createAdminStartupPropertiesFile(DOMAIN_DIR+'/servers/'+ADMIN_SERVER_NAME+'/data
 createBootPropertiesFile(DOMAIN_DIR+'/servers/'+ADMIN_SERVER_NAME+'/security','boot.properties',ADMIN_USER,ADMIN_PASSWORD)
 createBootPropertiesFile(DOMAIN_DIR+'/config/nodemanager','nm_password.properties',ADMIN_USER,ADMIN_PASSWORD)
 
-es = encrypt(ADMIN_PASSWORD,DOMAIN_PATH)
+es = encrypt(ADMIN_PASSWORD,DOMAIN_DIR)
 
 OSB_TEMPLATE_PATH=ORACLE_HOME+'/osb/common/templates/wls/oracle.osb_template.jar'
 readDomain(DOMAIN_DIR)
