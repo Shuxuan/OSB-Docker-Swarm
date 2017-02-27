@@ -270,7 +270,7 @@ cd('NodeManager/'+MACHINENAME)
 set('ListenAddress',HOSTNAME)
 set('ListenPort', 5556)
 set('NodeManagerHome', DOMAIN_DIR+'/nodemanager')
-setNodeManagerCredentials(DOMAIN_DIR, DOMAIN_NAME, WL_USER, WL_PWD)
+setNodeManagerCredentials(DOMAIN_DIR, DOMAIN_NAME, ADMIN_USER, ADMIN_PASSWORD)
 
 cd('/')
 ADMIN_SERVER_NAME = cmo.getAdminServerName()
