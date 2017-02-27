@@ -13,7 +13,7 @@ MANAGED_SERVER_NAME = 'osb_server1'
 MANAGED_SERVER_PORT = '8011'
 MACHINENAME="AdminServerMachine"
 
-oracle_db_host      ='localhost'
+oracle_db_host      ='osbdb'
 oracle_db_port      ='1521'
 oracle_db_service   ='OSB'
 SOA_REPOS_DBUSER_PREFIX  = 'DEV'
