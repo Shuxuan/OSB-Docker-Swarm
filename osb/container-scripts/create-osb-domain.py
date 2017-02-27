@@ -280,9 +280,14 @@ cd('/')
 ADMIN_SERVER_NAME = cmo.getAdminServerName()
 DOMAIN_NAME = cmo.getName()
 SERVERS = ls('/Server', 'true', 'c')
-
+print '======================== SERVERS============================'
+print SERVERS
+print '======================== SERVERS============================'
 addTemplate(OSB_TEMPLATE_PATH)
-
+SERVERS = ls('/Server', 'true', 'c')
+print '======================== SERVERS============================'
+print SERVERS
+print '======================== SERVERS============================'
 createServer(MANAGED_SERVER_NAME, int(MANAGED_SERVER_PORT))
 cd('/Servers/'+MANAGED_SERVER_NAME)
 set('Machine', MACHINENAME)
