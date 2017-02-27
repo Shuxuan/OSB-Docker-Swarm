@@ -34,7 +34,7 @@ ENV OSB_PKG fmw_12.2.1.2.0_osb.jar
 # Copy packages
 #-----------------------
 ADD $OSB_PKG /u01/
-ADD container-scripts /u01/oracle/
+ADD container-scripts /u01/oracle/container-scripts/
 COPY osbinstall.file /u01/
 COPY oraInst.loc /u01/
 
