@@ -70,7 +70,9 @@ RUN yum install  -y \
 
 # Installation of osb
 
-RUN cd /u01 && \
+RUN cd /u01/oracle/container-scripts && \
+    chmod a+x *.sh && \
+    cd /u01 && \
     su oracle -c "$JAVA_HOME/bin/java -jar /u01/$OSB_PKG -novalidation -silent -responseFile /u01/osbinstall.file -invPtrLoc /u01/oraInst.loc -jreLoc $JAVA_HOME" && \
     rm -fr /u01/$OSB_PKG /u01/osbinstall.file /u01/oraInstl.loc
 
