@@ -53,10 +53,10 @@ if [ $ADD_DOMAIN -eq 0 ]; then
 	echo "      ----> 'weblogic' admin password: $ADMIN_PASSWORD"
 	echo ""
 	
-	sed -i -e "s|ADMIN_PASSWORD|$ADMIN_PASSWORD|g" $DIR/create-osb-domain.py
+	#sed -i -e "s|ADMIN_PASSWORD|$ADMIN_PASSWORD|g" $DIR/create-osb-domain.py
 	
 	# Create an OSB domain
-	wlst.sh -skipWLSModuleScanning /u01/oracle/create-osb-domain.py
+	wlst.sh -skipWLSModuleScanning $DIR/create-osb-domain.py
 	${DOMAIN_HOME}/bin/setDomainEnv.sh 
 fi
 
