@@ -182,7 +182,7 @@ def updateDataSource(DRIVERNAME, URL, SCHEMA_POSTFIX):
     cd('JdbcDriverParams/NO_NAME')
     cmo.setDriverName(DRIVERNAME)
     cmo.setUrl(URL)
-    cmo.setPasswordEncrypted(DB_SCHEMA_PASSWORD)
+    cmo.setPasswordEncrypted(SOA_REPOS_DBPASSWORD)
     cd('Properties/NO_NAME')
     cd('Property/user')
     cmo.setValue(DB_SCHEMA_PREFIX + '_' + SCHEMA_POSTFIX)
@@ -279,10 +279,7 @@ setNodeManagerCredentials(DOMAIN_DIR, DOMAIN_NAME, ADMIN_USER, ADMIN_PASSWORD)
 cd('/')
 ADMIN_SERVER_NAME = cmo.getAdminServerName()
 DOMAIN_NAME = cmo.getName()
-SERVERS = ls('/Server', 'true', 'c')
-print '======================== SERVERS============================'
-print SERVERS
-print '======================== SERVERS============================'
+
 addTemplate(OSB_TEMPLATE_PATH)
 SERVERS = ls('/Server', 'true', 'c')
 print '======================== SERVERS============================'
