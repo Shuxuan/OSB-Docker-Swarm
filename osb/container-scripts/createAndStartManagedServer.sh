@@ -22,7 +22,6 @@ trap _kill SIGKILL
 #Absolute path of current file
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export DOMAIN_HOME=/u01/oracle/domains/osb_domain
-export MS_NAME=osb_server1
 export ADMIN_PASSWORD=Welcome1
 
 # If domain directory does not exist, container is starting for 1st time

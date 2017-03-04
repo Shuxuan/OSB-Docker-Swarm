@@ -27,24 +27,29 @@ cluster_name = os.environ.get("CLUSTER_NAME", "osb_cluster")
 # Should be Paired with saveActivate
 def editMode():
     edit()
-    startEdit(waitTimeInMillis=-1, exclusive="true")
+    startEdit(waitTimeInMillis=60000,
+              timeOutInMillis=300000,
+              exclusive="true")
 
-# Save and Activate Changes
-# Should be Paired with editMode
 def saveActivate():
+    """ Save and Activate Changes
+        Should be Paired with editMode
+    """
     save()
     activate(block="true")
 
-# Connect to Admin Server
 def connectToAdmin():
+    """ Connect to Admin Server
+    """
     connect(url='t3://' + admin_host + ':' + admin_port,
             adminServerName='AdminServer',
             username=admin_username,
             password=admin_password)
 
-# Create a WebLogic Machine
-# Set the listen address
 def createMachine():
+    """ Create a WebLogic Machine
+        Set the machine address
+    """
     cd('/')
     machine = create(machineName, 'UnixMachine')
     cd('Machines/'+machineName+'/NodeManager/'+machineName)
@@ -64,11 +69,13 @@ def registerServer():
 def createServer():
     """ Create a Server
         Add it to the cluster
+        Set the Listen Port
     """
     cd('/')
     cmo.createServer(managedServername)    
     cd('/Servers/' + managedServername)
     cmo.setCluster(getMBean('/Clusters/%s' % cluster_name))
+    cmo.setListenPort(managedServerPort)
 
 def writeDomainFile():
     """ Write the domain file
