@@ -1,0 +1,7 @@
+vi /etc/systemd/system/docker.service.d/http-proxy.conf
+vi /usr/lib/systemd/system/docker.service
+vi /etc/sysconfig/docker
+systemctl daemon-reload
+systemctl restart docker
+docker pull 10.0.2.10:5000/oraclelinux
+
