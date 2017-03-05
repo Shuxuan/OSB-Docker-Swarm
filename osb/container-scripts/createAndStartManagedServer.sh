@@ -21,35 +21,23 @@ trap _kill SIGKILL
 
 #Absolute path of current file
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export DOMAIN_HOME=/u01/oracle/domains/osb_domain
+export ADMIN_PASSWORD=Welcome1
 
-# If AdminServer.log does not exists, container is starting for 1st time
+# If domain directory does not exist, container is starting for 1st time
 # So it should start NM and also associate with AdminServer
 # Otherwise, only start NM (container restarted)
-DOMAIN_HOME=/u01/oracle/domains/osb_domain
 ADD_DOMAIN=1
-ADMIN_PASSWORD=Welcome1
-if [ ! -f ${DOMAIN_HOME}/servers/AdminServer/logs/AdminServer.log ]; then
+if [ ! -d ${DOMAIN_HOME} ]; then
     ADD_DOMAIN=0
 fi
 
-# Create Domain only if 1st execution
+# Create Managed Domain and Add Server only if 1st execution
 if [ $ADD_DOMAIN -eq 0 ]; then
-	#run RCU
-	$DIR/rcuOSB.sh
-	
-	echo ""
-	echo "    Oracle WebLogic Server Auto Generated OSB Domain:"
-	echo ""
-	echo "      ----> 'weblogic' admin password: $ADMIN_PASSWORD"
-	echo ""
-	
-	#sed -i -e "s|ADMIN_PASSWORD|$ADMIN_PASSWORD|g" $DIR/create-osb-domain.py
-	
-	# Create an OSB domain
-	wlst.sh -skipWLSModuleScanning $DIR/create-osb-domain.py
-	${DOMAIN_HOME}/bin/setDomainEnv.sh 
+	# Create a Managed Server OSB domain
+	wlst.sh -skipWLSModuleScanning $DIR/addManaged.py
 fi
 
 
-# Start Admin Server
-${DOMAIN_HOME}/startWebLogic.sh
+# Start Managed Server
+${DOMAIN_HOME}/bin/startManagedWebLogic.sh $MS_NAME
