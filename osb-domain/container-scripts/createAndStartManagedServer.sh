@@ -41,3 +41,4 @@ fi
 
 # Start Managed Server
 ${DOMAIN_HOME}/bin/startManagedWebLogic.sh $MS_NAME
+

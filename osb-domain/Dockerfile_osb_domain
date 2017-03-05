@@ -1,0 +1,63 @@
+#
+# The resulting image of this Dockerfile would have oracle linux and oracle weblogic 1221  and osb1221 installed and scripts to create domain
+#
+# ----------------------------------
+# REQUIRED FILES TO BUILD THIS IMAGE
+# ----------------------------------
+# (1) container-scripts
+#
+#
+# -----------------------
+# HOW TO BUILD THIS IMAGE
+# -----------------------
+# Run:
+#
+# docker build --force-rm=true --no-cache=true --rm=true -t oracle/osb-domain:1221 .
+#
+# ---------------
+# Pull base image
+# ---------------
+FROM oracle/osb:12.2.1.2
+
+# ----------
+# Maintainer
+# ----------
+MAINTAINER Shuxuan Nie <judy.nie@oracle.com>
+
+#
+# Set the environment values
+# -----------------------------------------
+ENV OSB_ADMIN_PORT=7001 \
+	OSB_PORT=8011 \
+	OSB_NM_PORT=5556 \
+	OSB_ROLE=wlsadmin
+
+# ----------------------
+# Copy packages
+#-----------------------
+ADD container-scripts /u01/oracle/container-scripts/
+
+# ----------------------------------
+# Expose ports
+# ----------------------------------
+EXPOSE $OSB_NM_PORT $OSB_ADMIN_PORT $OSB_PORT
+
+# ----------------------------------
+# install OSB required rpm packages:
+# ----------------------------------
+USER root
+RUN cd /u01/oracle/container-scripts && \
+    chmod a+x *.sh && \
+    chown -R oracle:oracle . *
+
+# ----------------------------------
+# User initial environment
+# ----------------------------------
+USER oracle
+WORKDIR /u01/oracle/
+ENV PATH $PATH:/u01/oracle/weblogic/oracle_common/common/bin
+
+# ----------------------------------
+# Define default command to start bash.
+# ----------------------------------
+CMD ["/u01/oracle/container-scripts/createAndStartOSBDomain.sh"]

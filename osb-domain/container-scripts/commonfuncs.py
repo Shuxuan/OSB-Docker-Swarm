@@ -19,9 +19,9 @@ domainPath = os.getenv('DOMAIN_HOME', '/u01/oracle/domains/osb_domain')
 machineName = os.environ.get('MACHINE_NAME', 'osb1Machine')
 # Managed Server Vars
 managedServername = os.environ.get('MS_NAME', 'osb_server1')
-managedServerPort = os.environ.get('MS_PORT', '8011')
+managedServerPort = int(os.environ.get('MS_PORT', '8011'))
 # Cluster Vars
-cluster_name = os.environ.get("CLUSTER_NAME", "osb_cluster")
+cluster_name = os.environ.get("CLUSTER_NAME", "osbCluster")
 
 # Enter Edit Mode
 # Should be Paired with saveActivate
@@ -56,15 +56,22 @@ def createMachine():
     cmo.setName(machineName)
     cmo.setListenAddress(hostname)
 
-def registerServer():
+def registerExistingServer():
     """ Register Server with Machine
         Configure Server to Listen on Hostname
         Associate server with a machine
     """
     cd('/')
     cd('/Servers/'+managedServername)
-    cmo.setListenAddress(hostname)
-    cmo.setMachine(getMBean('/Machines/'+machineName))
+    registerServer(cmo)
+
+def registerServer(srv):
+    """ Register Server with Machine
+        Configure Server to Listen on Hostname
+        Associate server with a machine
+    """
+    srv.setListenAddress(hostname)
+    srv.setMachine(getMBean('/Machines/'+machineName))
 
 def createServer():
     """ Create a Server
@@ -72,10 +79,10 @@ def createServer():
         Set the Listen Port
     """
     cd('/')
-    cmo.createServer(managedServername)    
-    cd('/Servers/' + managedServername)
-    cmo.setCluster(getMBean('/Clusters/%s' % cluster_name))
-    cmo.setListenPort(managedServerPort)
+    srv = cmo.createServer(managedServername)    
+    srv.setCluster(getMBean('/Clusters/%s' % cluster_name))
+    srv.setListenPort(managedServerPort)
+    return srv
 
 def writeDomainFile():
     """ Write the domain file
@@ -107,3 +114,4 @@ def createBootPropertiesFile():
     fileNew.write('password=%s\n' % admin_password)
     fileNew.flush()
     fileNew.close()
+

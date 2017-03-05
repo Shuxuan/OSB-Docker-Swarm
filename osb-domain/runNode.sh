@@ -33,6 +33,5 @@ docker run -d -it \
 	--add-host wlsadmin:172.17.0.3 \
 	--hostname ${SERVER_NAME} \
 	-p ${PORT_MAP} \
-	oracle/osb:12.2.1.2 \
-	/bin/bash
-#	/u01/oracle/container-scripts/${SCRIPT_NAME}
+	oracle/osb_domain:12.2.1.2 \
+	/u01/oracle/container-scripts/${SCRIPT_NAME}

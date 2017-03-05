@@ -14,16 +14,21 @@ createManagedDomain()
 connectToAdmin()
 editMode()
 
+# Create machine
+print("Creating Machine")
+createMachine()
+
 # Test if not node 1 so need to create server
 if hostname != 'wls1':
     print("Creating Server")
-    createServer()
-
-# Register server and create machine
-print("Creating Machine")
-createMachine()
-print("Assigning Server to Machine")
-registerServer()
+    srv = createServer()
+    # Register server
+    print("Assigning Server to Machine")
+    registerServer(srv)
+else:
+    # Register server
+    print("Assigning Server to Machine")
+    registerExistingServer()
 
 # Save and activate
 print("Activating Changes")
@@ -34,3 +39,4 @@ disconnect()
 # Create boot properties
 print("Creating Boot Properties File")
 createBootPropertiesFile()
+

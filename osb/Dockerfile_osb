@@ -29,23 +29,17 @@ MAINTAINER Shuxuan Nie <judy.nie@oracle.com>
 #
 # Set the environment values
 # -----------------------------------------
-ENV OSB_PKG=fmw_12.2.1.2.0_osb.jar \
-	OSB_ADMIN_PORT=7001 \
-	OSB_PORT=8011 \
-	OSB_NM_PORT=5556 \
-	OSB_ROLE=wlsadmin
+ENV OSB_PKG=fmw_12.2.1.2.0_osb.jar
 
 # ----------------------
 # Copy packages
 #-----------------------
 ADD $OSB_PKG /u01/
-ADD container-scripts /u01/oracle/container-scripts/
 COPY osbinstall.file oraInst.loc /u01/
 
 # ----------------------------------
 # Expose ports
 # ----------------------------------
-EXPOSE $OSB_NM_PORT $OSB_ADMIN_PORT $OSB_PORT
 
 # ----------------------------------
 # install OSB required rpm packages:
@@ -71,8 +65,6 @@ RUN yum install  -y \
         libaio-devel \
         libgcc \
         libstdc++ && \
-	cd /u01/oracle/container-scripts && \
-    chmod a+x *.sh && \
     cd /u01 && \
     chown -R oracle:oracle * && \
     su oracle -c "$JAVA_HOME/bin/java -jar /u01/$OSB_PKG -novalidation -silent -responseFile /u01/osbinstall.file -invPtrLoc /u01/oraInst.loc -jreLoc $JAVA_HOME" && \
@@ -88,4 +80,4 @@ ENV PATH $PATH:/u01/oracle/weblogic/oracle_common/common/bin
 # ----------------------------------
 # Define default command to start bash.
 # ----------------------------------
-CMD ["/u01/oracle/container-scripts/createAndStartOSBDomain.sh"]
+CMD ["/bin/bash"]
