@@ -21,8 +21,8 @@ trap _kill SIGKILL
 
 #Absolute path of current file
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-MS_LOGS=$DOMAIN_HOME/servers/${MS_NAME}/logs
 DOMAIN_HOME=/u01/oracle/domains/osb_domain
+MS_LOGS=$DOMAIN_HOME/servers/${MS_NAME}/logs
 ADMIN_PASSWORD=Welcome1
 
 # If domain directory does not exist, container is starting for 1st time
@@ -37,7 +37,7 @@ fi
 if [ $ADD_DOMAIN -eq 0 ]; then
 	# Create a Managed Server OSB domain
 	wlst.sh -skipWLSModuleScanning $DIR/addManaged.py
-	mkdir -p ${MSN_LOGS}
+	mkdir -p ${MS_LOGS}
 fi
 
 
