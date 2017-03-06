@@ -26,9 +26,10 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # So it should start NM and also associate with AdminServer
 # Otherwise, only start NM (container restarted)
 DOMAIN_HOME=/u01/oracle/domains/osb_domain
+ADMIN_LOGS=$DOMAIN_HOME/servers/AdminServer/logs
 ADD_DOMAIN=1
 ADMIN_PASSWORD=Welcome1
-if [ ! -f ${DOMAIN_HOME}/servers/AdminServer/logs/AdminServer.log ]; then
+if [ ! -f ${ADMIN_LOGS}/AdminServer.log ]; then
     ADD_DOMAIN=0
 fi
 
@@ -48,8 +49,17 @@ if [ $ADD_DOMAIN -eq 0 ]; then
 	# Create an OSB domain
 	wlst.sh -skipWLSModuleScanning $DIR/create-osb-domain.py
 	${DOMAIN_HOME}/bin/setDomainEnv.sh 
+	mkdir -p ${ADMIN_LOGS}
 fi
 
 
 # Start Admin Server
-${DOMAIN_HOME}/startWebLogic.sh
+
+${DOMAIN_HOME}/startWebLogic.sh &> ${ADMIN_LOGS}/AdminServer.out &
+
+touch ${ADMIN_LOGS}/AdminServer.out
+tail -f ${ADMIN_LOGS}/AdminServer.out &
+
+childPID=$!
+wait $childPID
+
