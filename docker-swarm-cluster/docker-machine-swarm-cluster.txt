@@ -79,5 +79,8 @@ docker tag dbimageid registryip:5000/oracle/database
 6.3
 docker push registryip:5000/oracle/database
 
-
+7 create db service into swarm
+========================
+7.1
+docker service create --replicas 1 --name osbdb --hostname osbdb --network weblogic-net --publish 1521:1521 --publish 5500:5500 -e ORACLE_SID=ORCL -e ORACLE_PDB=OSB swarm-registry:5000/oracle/database
     
