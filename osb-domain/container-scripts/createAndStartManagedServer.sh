@@ -21,8 +21,9 @@ trap _kill SIGKILL
 
 #Absolute path of current file
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-export DOMAIN_HOME=/u01/oracle/domains/osb_domain
-export ADMIN_PASSWORD=Welcome1
+DOMAIN_HOME=/u01/oracle/domains/osb_domain
+MS_LOGS=$DOMAIN_HOME/servers/${MS_NAME}/logs
+ADMIN_PASSWORD=Welcome1
 
 # If domain directory does not exist, container is starting for 1st time
 # So it should start NM and also associate with AdminServer
@@ -36,9 +37,15 @@ fi
 if [ $ADD_DOMAIN -eq 0 ]; then
 	# Create a Managed Server OSB domain
 	wlst.sh -skipWLSModuleScanning $DIR/addManaged.py
+	mkdir -p ${MS_LOGS}
 fi
 
 
 # Start Managed Server
-${DOMAIN_HOME}/bin/startManagedWebLogic.sh $MS_NAME
+${DOMAIN_HOME}/bin/startManagedWebLogic.sh $MS_NAME  http://wlsadmin:7001 &> ${MS_LOGS}/${MS_NAME}.out &
 
+touch ${MS_LOGS}/${MS_NAME}.out
+tail -f ${MS_LOGS}/${MS_NAME}.out &
+
+childPID=$!
+wait $childPID

@@ -31,6 +31,10 @@ docker run -d -it \
 	--name ${SERVER_NAME} \
 	--add-host osbdb:172.17.0.2 \
 	--add-host wlsadmin:172.17.0.3 \
+	--add-host wls1:172.17.0.4 \
+	--add-host wls2:172.17.0.5 \
+	--add-host wls3:172.17.0.6 \
+	--add-host wls4:172.17.0.7 \
 	--hostname ${SERVER_NAME} \
 	-p ${PORT_MAP} \
 	oracle/osb_domain:12.2.1.2 \
