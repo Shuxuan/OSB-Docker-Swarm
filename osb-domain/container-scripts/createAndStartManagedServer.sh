@@ -42,7 +42,7 @@ fi
 
 
 # Start Managed Server
-${DOMAIN_HOME}/bin/startManagedWebLogic.sh $MS_NAME  &> ${MS_LOGS}/${MS_NAME}.out &
+${DOMAIN_HOME}/bin/startManagedWebLogic.sh $MS_NAME  http://wlsadmin:7001 &> ${MS_LOGS}/${MS_NAME}.out &
 
 touch ${MS_LOGS}/${MS_NAME}.out
 tail -f ${MS_LOGS}/${MS_NAME}.out &
