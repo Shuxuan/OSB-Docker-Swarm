@@ -1,7 +1,29 @@
+1 
 vi /etc/systemd/system/docker.service.d/http-proxy.conf
-vi /usr/lib/systemd/system/docker.service
-vi /etc/sysconfig/docker
-systemctl daemon-reload
-systemctl restart docker
-docker pull 10.0.2.10:5000/oraclelinux
+Environment="NO_PROXY=localhost,127.0.0.1,{{10.0.2.14}}"
+Environment="no_proxy=localhost,127.0.0.1,{{10.0.2.14}}"
 
+2 
+vi /usr/lib/systemd/system/docker.service
+ExecStart=/usr/bin/dockerd --insecure-registry {{10.0.2.14}}:5000
+
+3 
+vi /etc/sysconfig/docker
+INSECURE_REGISTRY='--insecure-registry 10.0.2.14:5000'
+
+
+4systemctl daemon-reload
+5systemctl restart docker
+6 
+
+
+
+docker tag 199cfe67642f 10.0.2.14:5000/oracle/database
+docker push 10.0.2.14:5000/oracle/database
+
+
+
+query catalog
+curl -X GET http://10.0.2.14:5000/v2/_catalog
+curl -v -s -X GET "10.0.2.14:5000/v2/oracle/database/tags/list"
+curl -X GET http://10.0.2.14:5000/v2/oracle/database/manifests/latest
