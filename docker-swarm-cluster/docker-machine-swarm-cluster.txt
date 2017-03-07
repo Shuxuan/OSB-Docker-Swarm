@@ -69,5 +69,15 @@ docker node ls
 5.2
 docker network create -d overlay weblogic-net
 
-5.3
+6. build db image
+=======================
+6.1
+cd database
+./build.sh
+6.2 
+docker tag dbimageid registryip:5000/oracle/database
+6.3
+docker push registryip:5000/oracle/database
+
+
     
